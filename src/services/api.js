@@ -8,7 +8,7 @@ async function getJson(url) {
 
 // Fitur 1: katalog kelas musik dari dataset lokal (public/data/catalog.json)
 export async function fetchCatalog() {
-  const data = await getJson("/data/catalog.json");
+const data = await getJson(`${import.meta.env.BASE_URL}data/catalog.json`);
   return Array.isArray(data.items) ? data.items : [];
 }
 
