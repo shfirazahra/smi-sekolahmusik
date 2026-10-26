@@ -1,0 +1,100 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "name": "Kelas Piano Dasar",
+      "type": "Kelas Musik",
+      "price": 150000,
+      "featured": true,
+      "image": "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?auto=format&fit=crop&w=800&q=80",
+      "description": "Pengenalan piano untuk pemula, mulai dari posisi duduk, teknik jari, membaca notasi dasar, hingga memainkan lagu sederhana.",
+      "features": [
+        "Pengenalan tuts dan notasi",
+        "Teknik jari dasar",
+        "Latihan ritme dan koordinasi",
+        "Pendampingan instruktur",
+        "Cocok untuk pemula"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Kelas Gitar Akustik",
+      "type": "Kelas Musik",
+      "price": 125000,
+      "featured": true,
+      "image": "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=800&q=80",
+      "description": "Kelas gitar untuk mengenal akor dasar, pola genjrengan, perpindahan akor, dan mengiringi lagu pilihan.",
+      "features": [
+        "Pengenalan bagian gitar",
+        "Akor dasar dan transisi",
+        "Pola strumming",
+        "Latihan lagu pilihan",
+        "Materi bertahap"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Kelas Vokal",
+      "type": "Kelas Musik",
+      "price": 135000,
+      "featured": true,
+      "image": "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=800&q=80",
+      "description": "Latihan teknik vokal dasar untuk membangun pernapasan, intonasi, artikulasi, dan rasa percaya diri saat bernyanyi.",
+      "features": [
+        "Teknik pernapasan",
+        "Pemanasan vokal",
+        "Latihan intonasi",
+        "Artikulasi dan ekspresi",
+        "Evaluasi perkembangan"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Kelas Drum Pemula",
+      "type": "Kelas Musik",
+      "price": 150000,
+      "featured": false,
+      "image": "https://images.unsplash.com/photo-1519892300165-cb5542fb47c7?auto=format&fit=crop&w=800&q=80",
+      "description": "Belajar dasar ritme, koordinasi tangan dan kaki, serta pola beat sederhana menggunakan drum.",
+      "features": [
+        "Pengenalan drum set",
+        "Koordinasi tangan-kaki",
+        "Dasar tempo dan ritme",
+        "Pola beat populer",
+        "Latihan terarah"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Kelas Biola Dasar",
+      "type": "Kelas Musik",
+      "price": 160000,
+      "featured": false,
+      "image": "https://images.unsplash.com/photo-1612225330812-01a9c6b355ec?auto=format&fit=crop&w=800&q=80",
+      "description": "Pengenalan biola untuk pemula dengan fokus pada postur, cara memegang bow, intonasi, dan latihan nada sederhana.",
+      "features": [
+        "Postur dan posisi biola",
+        "Teknik memegang bow",
+        "Latihan nada terbuka",
+        "Dasar intonasi",
+        "Latihan bertahap"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Kelas Keyboard",
+      "type": "Kelas Musik",
+      "price": 140000,
+      "featured": false,
+      "image": "https://images.unsplash.com/photo-1552422535-c45813c61732?auto=format&fit=crop&w=800&q=80",
+      "description": "Mengenal keyboard, melodi, akor dasar, dan iringan sederhana untuk memainkan lagu favorit.",
+      "features": [
+        "Pengenalan keyboard",
+        "Melodi dan akor dasar",
+        "Ritme pengiring",
+        "Koordinasi kedua tangan",
+        "Praktik lagu pilihan"
+      ]
+    }
+  ]
+}
