@@ -3,7 +3,7 @@ import EmptyState from "../components/EmptyState";
 export default function Orders({ orders, onGoCatalog }) {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 animate-fade-in min-h-[60vh]">
-      <h1 className="text-2xl sm:text-3xl font-black mb-6 text-slate-900 uppercase">Pendaftaran Saya</h1>
+      <h1 className="text-2xl sm:text-3xl font-black mb-6 text-slate-900 uppercase">Pesanan Saya</h1>
       {orders.length === 0 ? (
         <div>
           <EmptyState

@@ -164,7 +164,7 @@ export default function Navbar({
                 onClick={() => handleNavClick("orders")}
                 className={`flex items-center justify-between rounded-lg px-3 py-2 text-left ${currentView === "orders" ? "bg-indigo-50 text-indigo-600" : "hover:bg-slate-50"}`}
               >
-                <span>Pendaftaran Saya</span>
+                <span>Pesanan</span>
                 {orderCount > 0 && (
                   <span className="rounded-full bg-indigo-600 px-2 py-0.5 text-[10px] font-bold text-white">
                     {orderCount}
