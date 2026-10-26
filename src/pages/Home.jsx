@@ -3,7 +3,14 @@ import ItemCard from '../components/ItemCard';
 import MemberCard from '../components/MemberCard';
 import AsyncBoundary from '../components/AsyncBoundary';
 
-export default function Home({ catalog, team, setCurrentView, handleOpenDetail, onBook, testimonials }) {
+export default function Home({
+  catalog,
+  setCurrentView,
+  handleOpenDetail,
+  onBook,
+  testimonials,
+  session 
+}) {
   const featuredItems = catalog.data.filter((item) => item.featured);
   return (
     <div className="animate-fade-in w-full bg-white">
@@ -77,8 +84,15 @@ export default function Home({ catalog, team, setCurrentView, handleOpenDetail, 
             >
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {featuredItems.map((item) => (
-                  <ItemCard key={item.id} item={item} large onDetail={handleOpenDetail} onBook={onBook} />
-                ))}
+  <ItemCard 
+    key={item.id} 
+    item={item} 
+    session={session} // <--- TAMBAHKAN BARIS INI
+    large 
+    onDetail={handleOpenDetail} 
+    onBook={onBook} 
+  />
+))}
               </div>
             </AsyncBoundary>
           </div>

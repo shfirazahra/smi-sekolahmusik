@@ -19,17 +19,14 @@ import { useToast } from "./hooks/useToast";
 import { useContactForm } from "./hooks/useContactForm";
 import { useAuth } from "./hooks/useAuth";
 
-// Beranda, Tentang, Katalog, dan Detail bisa dibuka tanpa login.
-// Login hanya diminta saat menyewa atau membuka halaman Pesanan.
 export default function App() {
   const [currentView, setCurrentView] = useState("home");
   const [selectedItem, setSelectedItem] = useState(null);
   const [bookingItem, setBookingItem] = useState(null);
-  const [pending, setPending] = useState(null); // tujuan yang dilanjutkan setelah login
+  const [pending, setPending] = useState(null);
 
   const { session, signIn, signOut } = useAuth();
   const catalog = useCatalog();
-  // Ambil lebih banyak pengguna DummyJSON untuk mengisi daftar contoh murid.
   const team = useTeam(30);
   const filter = useCatalogFilter(catalog.data);
   const { orders, addOrder, clearOrders } = useOrders();
@@ -45,7 +42,17 @@ export default function App() {
   };
 
   const navigate = (view) => {
-    if ((view === "orders" || view === "attendance") && !session) return goToLogin({ view });
+    // Proteksi halaman Pesanan & Kehadiran
+    if ((view === "orders" || view === "attendance") && !session) {
+      return goToLogin({ view });
+    }
+
+    // Hanya Admin yang diizinkan mengakses halaman presensi
+    if (view === "attendance" && session?.role !== "admin") {
+      toast.show("Akses ditolak: Halaman presensi hanya untuk Admin.");
+      return;
+    }
+
     setCurrentView(view);
   };
 
@@ -62,7 +69,9 @@ export default function App() {
 
   const handleLoginSuccess = (newSession) => {
     signIn(newSession);
-    setCurrentView(pending?.view ?? "home");
+    const targetView = pending?.view ?? (newSession.role === "admin" ? "attendance" : "home");
+    setCurrentView(targetView);
+
     if (pending?.bookItem) setBookingItem(pending.bookItem);
     setPending(null);
     toast.show(`Selamat datang, ${newSession.name}!`);
@@ -84,13 +93,13 @@ export default function App() {
   const handleBookingConfirm = (details) => {
     addOrder(bookingItem, details);
     setBookingItem(null);
-    toast.show("Pesanan Anda berhasil dikonfirmasi!");
+    toast.show("Pendaftaran kelas berhasil disimpan!");
   };
 
   const loginNotice = pending?.bookItem
-    ? `Masuk untuk menyewa ${pending.bookItem.name}.`
+    ? `Masuk atau daftar untuk menyewa/mendaftar ${pending.bookItem.name}.`
     : pending?.view === "orders"
-      ? "Masuk untuk melihat pesanan Anda."
+      ? "Masuk untuk melihat pendaftaran Anda."
       : "";
 
   return (
@@ -105,33 +114,38 @@ export default function App() {
       />
 
       <main className="flex-grow w-full">
-        {currentView === "home" && (
-          <Home
-            catalog={catalog}
-            team={team}
-            setCurrentView={navigate}
-            handleOpenDetail={handleOpenDetail}
-            onBook={requestBooking}
-            testimonials={testimonials}
-          />
-        )}
+       {currentView === "home" && (
+  <Home
+    catalog={catalog}
+    team={team}
+    setCurrentView={navigate}
+    handleOpenDetail={handleOpenDetail}
+    onBook={requestBooking}
+    testimonials={testimonials}
+    session={session}
+  />
+)}
         {currentView === "about" && <About />}
-        {currentView === "attendance" && <Attendance team={team} />}
+        {currentView === "attendance" && session?.role === "admin" && (
+          <Attendance team={team} />
+        )}
         {currentView === "catalog" && (
-          <Catalog
-            catalog={catalog}
-            filter={filter}
-            handleOpenDetail={handleOpenDetail}
-            onBook={requestBooking}
-          />
-        )}
-        {currentView === "detail" && selectedItem && (
-          <ItemDetail
-            item={selectedItem}
-            onBack={() => setCurrentView("catalog")}
-            onBook={requestBooking}
-          />
-        )}
+  <Catalog
+    catalog={catalog}
+    filter={filter}
+    handleOpenDetail={handleOpenDetail}
+    onBook={requestBooking}
+    session={session} // <--- Kirimkan session ke Catalog
+  />
+)}
+       {currentView === "detail" && selectedItem && (
+  <ItemDetail
+    item={selectedItem}
+    onBack={() => setCurrentView("catalog")}
+    onBook={requestBooking}
+    session={session} // <--- Tambahkan prop session di sini
+  />
+)}
         {currentView === "orders" && (
           <Orders orders={orders} onGoCatalog={() => setCurrentView("catalog")} />
         )}

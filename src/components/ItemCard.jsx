@@ -1,51 +1,62 @@
-import ItemImage from "./ItemImage";
-import PriceTag from "./PriceTag";
-
-// Kartu item reusable: dipakai di Beranda (large) dan Katalog.
-export default function ItemCard({ item, large = false, onDetail, onBook }) {
-  const canBook = item.price !== null;
-  const pad = large ? "p-6" : "p-5";
-  const btn = large ? "py-3" : "py-2.5";
+export default function ItemCard({ item, onDetail, onBook, onEdit, onDelete, session }) {
+  const isAdmin = session?.role === "admin";
 
   return (
-    <div
-      className={`bg-white overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition duration-300 flex flex-col justify-between group ${
-        large ? "rounded-3xl hover:-translate-y-1.5" : "rounded-2xl hover:-translate-y-1"
-      }`}
-    >
+    <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between">
       <div>
-        <div className="relative overflow-hidden aspect-video">
-          <ItemImage
-            item={item}
-            className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
+        <div className="relative h-48 w-full bg-slate-100 overflow-hidden">
+          <img
+            src={item.image || "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80"}
+            alt={item.name}
+            className="w-full h-full object-cover"
           />
-          <div className="absolute top-3 right-3 bg-slate-900/90 text-indigo-300 text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase border border-slate-700">
-            {item.type}
-          </div>
+          <span className="absolute top-3 right-3 bg-indigo-950/80 backdrop-blur-md text-white text-[10px] font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider">
+            {item.category || "Kelas Musik"}
+          </span>
         </div>
-        <div className={pad}>
-          <h3 className={`font-bold text-slate-900 mb-1.5 group-hover:text-indigo-600 transition ${large ? "text-xl" : "text-lg"}`}>
-            {item.name}
-          </h3>
-          <PriceTag item={item} className="text-indigo-600 font-black text-base mb-2" />
-          <p className="text-slate-600 text-xs line-clamp-2 leading-relaxed">{item.description}</p>
+        <div className="p-5">
+          <h3 className="text-lg font-bold text-slate-900 mb-1">{item.name}</h3>
+          <p className="text-indigo-600 font-extrabold text-sm mb-2">
+            Rp {Number(item.price).toLocaleString("id-ID")}{" "}
+            <span className="text-slate-400 font-normal text-xs">/ Sesi</span>
+          </p>
+          <p className="text-slate-500 text-xs line-clamp-2">{item.description}</p>
         </div>
       </div>
 
-      <div className={`${pad} pt-0 flex gap-2`}>
+      <div className="p-5 pt-0 flex gap-2">
         <button
           onClick={() => onDetail(item)}
-          className={`w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 ${btn} rounded-xl font-bold transition text-xs uppercase`}
+          className="flex-1 bg-slate-100 text-slate-700 py-2.5 rounded-xl font-bold text-xs uppercase hover:bg-slate-200 transition"
         >
           Detail
         </button>
-        <button
-          onClick={() => onBook(item)}
-          disabled={!canBook}
-          className={`w-1/2 bg-indigo-600 hover:bg-indigo-700 text-white ${btn} rounded-xl font-bold transition text-xs uppercase shadow-md shadow-indigo-600/20 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:shadow-none`}
-        >
-          Daftar Kelas
-        </button>
+
+        {/* Tampilan Tombol Dinamis berdasarkan Role */}
+        {isAdmin ? (
+          <>
+            <button
+              onClick={() => onEdit && onEdit(item)}
+              className="flex-1 bg-amber-500 text-white py-2.5 rounded-xl font-bold text-xs uppercase hover:bg-amber-600 transition shadow-md"
+            >
+              Edit
+            </button>
+            <button
+              onClick={() => onDelete && onDelete(item.id)}
+              className="bg-rose-600 text-white px-3 py-2.5 rounded-xl font-bold text-xs uppercase hover:bg-rose-700 transition"
+              title="Hapus Kelas"
+            >
+              Hapus
+            </button>
+          </>
+        ) : (
+          <button
+            onClick={() => onBook(item)}
+            className="flex-1 bg-indigo-600 text-white py-2.5 rounded-xl font-bold text-xs uppercase hover:bg-indigo-700 transition shadow-md"
+          >
+            Daftar Kelas
+          </button>
+        )}
       </div>
     </div>
   );

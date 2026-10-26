@@ -1,22 +1,35 @@
 # Sekolah Musik — Prototipe Front-End SMI
 
-Aplikasi web untuk coding test Front-End Engineer. Website Sekolah Musik dengan katalog program pembelajaran, alur pendaftaran demo, serta dashboard kehadiran instruktur untuk kebutuhan coding test.
+Aplikasi web untuk coding test Front-End Engineer. Website Sekolah Musik dengan katalog program pembelajaran, alur pendaftaran demo, manajemen katalog & presensi untuk admin, serta sistem multi-role pengguna.
 
 ## Deskripsi Aplikasi
 
-- **Login**: form email dan password dengan validasi sederhana. Autentikasi disimulasikan dengan akun dummy, sesi disimpan di `localStorage`.
-- **Alur akses**: Beranda, Tentang Kami, Katalog, dan Detail bisa dibuka tanpa login. Login diminta saat menekan tombol Daftar Kelas atau membuka halaman Pesanan, lalu pengguna dikembalikan ke tujuan semula setelah berhasil masuk. Tombol Masuk, nama pengguna, dan Keluar ada di navbar. Menu **Pesanan** dan **Kehadiran** (Panel Instruktur) hanya muncul di navbar setelah login dengan akun demo.
-- **Katalog Kelas Musik**: data dari dataset buatan sendiri (`public/data/catalog.json`) yang diambil dengan `fetch`. Bisa dicari, difilter per kategori, dilihat detailnya, lalu melakukan pendaftaran demo melalui formulir.
-- **Tim Kami**: data diambil dari API [DummyJSON](https://dummyjson.com/docs) (`/users`) dan ditampilkan di Beranda (nama, foto, departemen, kota).
-- **Dashboard Kehadiran Instruktur**: ringkasan total catatan, kehadiran murid, alpa, izin/sakit, presentasi status kehadiran, kehadiran personal instruktur, dan riwayat yang dapat difilter berdasarkan rentang tanggal, status, nama, atau email.
-- **Catatan data demo**: identitas murid diambil dari DummyJSON. Status presensi dan kehadiran personal adalah data simulasi di sisi frontend, bukan data absensi nyata atau data yang disimpan di backend.
-- **Pendaftaran Saya**: daftar pemesanan yang dibuat selama sesi berjalan (disimpan di memori).
-- State **loading**, **error** (dengan tombol coba lagi), **data kosong**, dan **data invalid** ditangani:
-  - item tanpa nama dibuang dan jumlahnya dicatat,
-  - harga tidak valid diganti "Hubungi kami untuk harga" dan tombol pendaftaran dinonaktifkan,
-  - gambar kosong atau gagal dimuat diganti placeholder.
+- **Autentikasi & Multi-Role**:
+  - **Registrasi & Login**: Form registrasi untuk pendaftaran pengguna baru (role `user` secara otomatis) dan form login.
+  - **Sistem Role (Admin vs User)**:
+    - **User (Siswa/Pengunjung)**: Diberikan akses ke halaman **Katalog Kelas**, **Form Pendaftaran/Pemesanan**, dan halaman **Pendaftaran Saya** untuk melihat riwayat pesanan.
+    - **Admin (Pengelola)**: Mengakses **Panel Presensi/Kehadiran** (melihat, mencatat, dan mengonfirmasi kehadiran) serta **Panel Kelola Katalog** (menambah, mengedit, dan menghapus kelas). Admin dibatasi dari halaman/fitur pemesanan kelas.
+  - Autentikasi disimulasikan menggunakan `localStorage` untuk menyimpan akun terdaftar dan session aktif.
+- **Alur Akses Navigasi**:
+  - Beranda, Tentang Kami, Katalog, dan Detail dapat dibuka tanpa login.
+  - Halaman **Pendaftaran Saya** hanya muncul di navbar saat masuk sebagai **User**.
+  - Halaman **Presensi (Admin)** hanya muncul di navbar saat masuk sebagai **Admin**.
+  - Akses fitur pemesanan oleh pengunjung tanpa login akan mengarahkan pengguna ke halaman login/registrasi terlebih dahulu.
+- **Katalog Kelas & Pengelolaan Katalog**:
+  - Data kelas diambil dari dataset buatan sendiri (`public/data/catalog.json`) dengan `fetch`.
+  - **Tampilan User**: Pencarian, filter kategori, detail kelas, serta pendaftaran kelas/pemesanan.
+  - **Tampilan Admin**: Tombol pemesanan digantikan dengan aksi **Edit** dan **Hapus**, serta tombol **+ Tambah Kelas Baru** untuk menambah program baru ke katalog.
+- **Tim Kami**: Data diambil dari API [DummyJSON](https://dummyjson.com/docs) (`/users`) dan ditampilkan di Beranda.
+- **Dashboard Kehadiran (Akses Admin)**:
+  - Ringkasan total catatan, tingkat kehadiran murid, alpa, izin/sakit, serta grafik presentasi status kehadiran.
+  - **Fitur Catat Kehadiran Baru**: Form input bagi Admin untuk mencatat konfirmasi kehadiran siswa secara langsung.
+  - Filter riwayat kehadiran berdasarkan rentang tanggal, status, serta pencarian nama/email.
+- **Pendaftaran Saya**: Daftar pemesanan/pendaftaran kelas yang dibuat oleh User selama sesi berjalan.
+- **Penanganan State**: State **loading**, **error** (dengan tombol coba lagi), **data kosong**, dan **data invalid** ditangani dengan konsisten menggunakan `AsyncBoundary`.
 
-**Akun demo:** `admin@smi.co.id` / `smi12345`
+**Akun Demo Bawaan:**
+- **Admin**: `admin@smi.co.id` / `smi12345`
+- **User Baru**: Dapat langsung mendaftar via form registrasi di halaman Login.
 
 ## Cara Menjalankan
 
@@ -27,7 +40,7 @@ npm install
 npm run dev
 ```
 
-Buka alamat yang muncul di terminal (http://localhost:5173).
+Buka alamat yang muncul di terminal (`http://localhost:5173`).
 
 Build produksi: `npm run build`
 
@@ -39,7 +52,6 @@ Build produksi: `npm run build`
 - Fetch API untuk integrasi REST
 - Oxlint untuk linting (`npm run lint`)
 - Git untuk version control
-- Tidak ada library tambahan di luar yang tercantum di `package.json`
 
 ## Struktur Folder
 
@@ -47,8 +59,8 @@ Build produksi: `npm run build`
 src/
   components/   Komponen reusable (ItemCard, AsyncBoundary, Loading, ErrorMessage, EmptyState, StatCard, StatusBadge, FilterField, StudentAttendanceTable, PersonalAttendance, BookingModal, Toast, Navbar, Footer)
   hooks/        Logika data dan state: useData, useAttendance, useAuth, useCatalogFilter, useOrders, useToast, useContactForm
-  pages/        Login, Home, About, Catalog, ItemDetail, Orders, Contact, Attendance
-  services/     api.js (fetch) dan auth.js (login simulasi)
+  pages/        Login (Login & Register), Home, About, Catalog (User & Admin Manage), ItemDetail, Orders, Contact, Attendance (Admin)
+  services/     api.js (fetch) dan auth.js (login, registrasi, multi-role session)
   utils/        format.js (rupiah, normalisasi data), date.js (format tanggal), attendance.js (hitung, filter, ringkasan kehadiran)
   data/         Teks testimoni statis
 public/data/    catalog.json (dataset lokal)
@@ -56,15 +68,12 @@ public/data/    catalog.json (dataset lokal)
 
 ## Keputusan Teknis
 
-- Pengambilan dan pembersihan data dipisah dari UI lewat `services`, `utils`, dan custom hook. `App.jsx` hanya merangkai komponen.
-- Logika kehadiran (membuat data simulasi, filter, ringkasan, persentase) ada di `utils/attendance.js` sebagai fungsi murni dan dipakai lewat hook `useAttendance`; `pages/Attendance.jsx` hanya menyusun tampilan.
-- `AsyncBoundary` dipakai ulang di semua daftar agar loading, error, dan data kosong konsisten.
-- `ItemCard` dipakai di Beranda dan Katalog agar tidak ada kode kartu ganda.
-- Navigasi antar halaman memakai state, bukan library routing, karena aplikasi kecil dan tidak butuh URL per halaman.
-- Dashboard Kehadiran memakai data contoh untuk status presensi; API DummyJSON hanya menyediakan data profil pengguna. Untuk penggunaan produksi, status presensi perlu dihubungkan ke API/backend absensi yang sah.
+- **Penerapan Multi-Role (RBAC)**: Pemisahan hak akses antara `admin` dan `user` dilakukan pada level komponen dan navigasi (`Navbar`, `App.jsx`, `Catalog`, `ItemDetail`, `Home`).
+- **Autentikasi Terintegrasi**: Fitur registrasi menyimpan data pengguna baru di `localStorage` bersama akun bawaan admin, lalu membuat sesi login otomatis setelah pendaftaran.
+- **Pengolahan Data & Modul**: Pengambilan data dipisah dari UI melalui `services`, `utils`, dan custom hook.
+- Navigasi antar halaman menggunakan state internal tanpa routing eksternal untuk menjaga kesederhanaan prototipe.
 
+## Catatan Penting untuk Penilaian
 
-## Catatan penting untuk penilaian
-
-- Harga, program kelas, akun demo, dan data kehadiran adalah data simulasi untuk demonstrasi frontend. Tidak ada pendaftaran atau absensi yang tersimpan ke server.
-- Data profil contoh menggunakan DummyJSON; endpoint tersebut bukan data murid atau instruktur asli.
+- Data pengguna terdaftar, status kehadiran, dan penambahan katalog disimpan secara lokal (*frontend simulation*) melalui `localStorage` dan state React.
+- Data profil contoh diambil dari API DummyJSON sebagai representasi data pengguna demo.

@@ -1,11 +1,24 @@
-// Autentikasi simulasi: akun dummy, sesi disimpan di localStorage.
 const SESSION_KEY = "smi_session";
+const USERS_KEY = "smi_registered_users";
 
-const DUMMY_USER = {
-  email: "admin@smi.co.id",
-  password: "smi12345",
-  name: "Admin SMI",
-};
+// Akun bawaan sistem
+const DEFAULT_USERS = [
+  {
+    email: "admin@smi.co.id",
+    password: "smi12345",
+    name: "Admin SMI",
+    role: "admin",
+  },
+];
+
+function getStoredUsers() {
+  try {
+    const users = JSON.parse(localStorage.getItem(USERS_KEY));
+    return Array.isArray(users) && users.length > 0 ? users : DEFAULT_USERS;
+  } catch {
+    return DEFAULT_USERS;
+  }
+}
 
 export function validateLogin({ email, password }) {
   const errors = {};
@@ -16,13 +29,59 @@ export function validateLogin({ email, password }) {
   return errors;
 }
 
+export function validateRegister({ name, email, password }) {
+  const errors = validateLogin({ email, password });
+  if (!name || !name.trim()) errors.name = "Nama lengkap wajib diisi.";
+  return errors;
+}
+
+// Fitur Login untuk Admin dan User
 export function login({ email, password }) {
-  if (email.trim().toLowerCase() === DUMMY_USER.email && password === DUMMY_USER.password) {
-    const session = { email: DUMMY_USER.email, name: DUMMY_USER.name };
+  const users = getStoredUsers();
+  const normalizedEmail = email.trim().toLowerCase();
+  
+  const foundUser = users.find(
+    (u) => u.email.toLowerCase() === normalizedEmail && u.password === password
+  );
+
+  if (foundUser) {
+    const session = {
+      email: foundUser.email,
+      name: foundUser.name,
+      role: foundUser.role || "user",
+    };
     localStorage.setItem(SESSION_KEY, JSON.stringify(session));
     return { ok: true, session };
   }
+
   return { ok: false, message: "Email atau password salah." };
+}
+
+// Fitur Registrasi Pengguna Baru (Role secara otomatis 'user')
+export function registerUser({ name, email, password }) {
+  const users = getStoredUsers();
+  const normalizedEmail = email.trim().toLowerCase();
+
+  const isExist = users.some((u) => u.email.toLowerCase() === normalizedEmail);
+  if (isExist) {
+    return { ok: false, message: "Email sudah terdaftar. Silakan login." };
+  }
+
+  const newUser = {
+    name: name.trim(),
+    email: normalizedEmail,
+    password,
+    role: "user",
+  };
+
+  const updatedUsers = [...users, newUser];
+  localStorage.setItem(USERS_KEY, JSON.stringify(updatedUsers));
+
+  // Otomatis login setelah registrasi
+  const session = { email: newUser.email, name: newUser.name, role: newUser.role };
+  localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+
+  return { ok: true, session };
 }
 
 export function logout() {
