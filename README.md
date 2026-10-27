@@ -113,6 +113,6 @@ public/data/    catalog.json (dataset lokal)
 - **Role**: pembatasan akses dilakukan di level aplikasi (<mark style="background-color: #fef08a; color: #000;">App.jsx</mark>, <mark style="background-color: #fef08a; color: #000;">Navbar</mark>, <mark style="background-color: #fef08a; color: #000;">Catalog</mark>, <mark style="background-color: #fef08a; color: #000;">ItemDetail</mark>). Halaman Presensi hanya untuk Instruktur; "Pendaftaran Kelas" hanya untuk User.
 - Navigasi antar halaman memakai state internal (tanpa library routing) untuk menjaga kesederhanaan.
 
-## Catatan
+## 📄 Catatan
 
 - Seluruh autentikasi, data kehadiran, dan perubahan katalog adalah **simulasi front-end**. Password disimpan apa adanya di <mark style="background-color: #fef08a; color: #000;">localStorage</mark> hanya untuk keperluan demo dan tidak boleh dipakai di produksi.
