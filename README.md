@@ -52,9 +52,9 @@ Catatan perilaku filter:
 - Form **Catat Kehadiran Hari Ini** (fitur tambahan) mengganti status seorang murid pada hari ini; hasilnya ikut terhitung di ringkasan dan filter. Data ini hanya ada di memori dan hilang saat halaman dimuat ulang.
 
 ### 3. Sumber Data
-- **DummyJSON** (`GET https://dummyjson.com/users?limit=30`) — daftar murid/tim. Dipakai di halaman Presensi dan bagian "Tim Kami" di Beranda.
-- **Dataset buatan sendiri** (`public/data/catalog.json`, di-fetch lewat Fetch API) — katalog kelas musik. Dataset ini melengkapi DummyJSON, sesuai ketentuan soal.
-- DummyJSON tidak menyediakan data presensi, sehingga **status kehadiran murid dan instruktur dibuat simulasi** di sisi front-end (pola deterministik dari id murid dan tanggal) lalu diproses (filter, hitung, persentase) dari data tersebut. Ini data contoh, bukan catatan presensi nyata.
+- * 🌐 <mark style="background-color: #bae6fd; color: #000; font-weight: bold; padding: 2px 6px;">DummyJSON</mark> (`GET https://dummyjson.com/users?limit=30`) — daftar murid/tim. Dipakai di halaman Presensi dan bagian "Tim Kami" di Beranda.
+- * 📁 <mark style="background-color: #bae6fd; color: #000; font-weight: bold; padding: 2px 6px;">Dataset buatan sendiri</mark> (`public/data/catalog.json`, di-fetch lewat Fetch API) — katalog kelas musik. Dataset ini melengkapi DummyJSON, sesuai ketentuan soal.
+- * DummyJSON tidak menyediakan data presensi, sehingga **status kehadiran murid dan instruktur dibuat simulasi** di sisi front-end (pola deterministik dari id murid dan tanggal) lalu diproses (filter, hitung, persentase) dari data tersebut. Ini data contoh, bukan catatan presensi nyata.
 
 ### 4. Fitur Pelengkap
 - **Katalog Kelas**: cari nama kelas, filter kategori, halaman detail, dan pendaftaran kelas (modal) untuk User. Instruktur melihat tombol Tambah/Edit/Hapus kelas; perubahan hanya di memori dan kembali ke data awal saat halaman dimuat ulang.
