@@ -22,15 +22,19 @@ Aplikasi web Sekolah Musik SMI yang dibuat untuk coding test Front-End. Fitur ut
 
 > [!NOTE]
 > **Melihat attendance personal**  
-> 📍 **Lokasi:** Bagian **Kehadiran personal** (kartu ringkasan + tabel riwayat)
-
-> [!TIP]
-> **Melihat total absensi murid & Persentase**  
-> 📍 **Lokasi:** Kartu **Total absensi murid** & **Persentase kehadiran murid** per status
+> 📍 **Lokasi di aplikasi:** Bagian **Kehadiran personal**: kartu ringkasan + tabel riwayat
 
 > [!IMPORTANT]
+> **Melihat total absensi murid**  
+> 📍 **Lokasi di aplikasi:** Kartu **Total absensi murid** (alpa + izin + sakit, dengan rinciannya)
+
+> [!TIP]
+> **Persentase kehadiran murid dan personal**  
+> 📍 **Lokasi di aplikasi:** Kartu **Persentase kehadiran murid**, bar **Persentase Kehadiran Murid** per status, serta persentase pada **Kehadiran Personal**
+
+> [!WARNING]
 > **Filter history kehadiran personal dan murid**  
-> 📍 **Lokasi:** Dua filter berdiri sendiri (personal: tanggal + status | murid: tanggal + status + cari nama)
+> 📍 **Lokasi di aplikasi:** Dua filter yang berdiri sendiri: personal (rentang tanggal + status) dan murid (rentang tanggal + status + cari nama/email)
 
 Catatan perilaku filter:
 - Persentase dan total pada ringkasan mengikuti **rentang tanggal** (dan pencarian untuk murid). Filter **status** hanya mempersempit isi tabel, agar persentase kehadiran tidak menjadi 0% atau 100% saat status dipilih.
