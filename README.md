@@ -11,7 +11,7 @@ Aplikasi web Sekolah Musik SMI yang dibuat untuk coding test Front-End. Fitur ut
   - **Instruktur** — akun bawaan, masuk ke halaman Presensi dan dapat mengelola katalog.
   - **User** — dibuat lewat form "Daftar di sini"; dapat mendaftar kelas dan melihat "Pendaftaran Kelas".
 
-**Akun demo instruktur:** `instruktur@smi.co.id` / `smi12345`
+**Akun demo instruktur:** <mark style="background-color: #fef08a; color: #000;">instruktur@smi.co.id / smi12345</mark>
 
 ### 2. Presensi Instruktur (khusus role Instruktur)
 | Fitur pada soal | Lokasi di aplikasi |
