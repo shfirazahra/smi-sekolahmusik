@@ -51,7 +51,7 @@ Catatan perilaku filter:
 - **Pendaftaran Kelas**: riwayat pendaftaran kelas oleh User selama sesi berjalan.
 - Beranda, Tentang, dan Kontak.
 
-### Penanganan State
+### 🛡️ Penanganan State
 - **Loading**, **error** (dengan tombol *Coba lagi*), dan **data kosong** ditangani seragam oleh komponen <mark style="background-color: #fef08a; color: #000;">AsyncBoundary</mark>.
 - **Data invalid**: item/murid tanpa id atau nama dibuang, dan field rusak diberi nilai aman (lihat `normalizeItem` dan `normalizeMember` di <mark style="background-color: #fef08a; color: #000;">src/utils/format.js</mark>).
 
@@ -78,7 +78,7 @@ npm run deploy    # publikasi ke GitHub Pages (gh-pages)
 
 > Path dasar build produksi diatur di <mark style="background-color: #fef08a; color: #000;">vite.config.js</mark> (<mark style="background-color: #fef08a; color: #000;">/smi-sekolahmusik/</mark>). Ubah jika nama repository Anda berbeda.
 
-## Bahasa Pemrograman dan Tools
+## 📡 Bahasa Pemrograman dan Tools
 
 - JavaScript (JSX) dengan **React 19**
 - **Vite** sebagai build tool
@@ -89,7 +89,7 @@ npm run deploy    # publikasi ke GitHub Pages (gh-pages)
 
 Library tambahan: tidak ada library UI/state/routing tambahan. Dependensi selain React hanya tooling (Vite, Tailwind, PostCSS, Autoprefixer, Oxlint) dan <mark style="background-color: #fef08a; color: #000;">gh-pages</mark> untuk deploy.
 
-## Struktur Folder
+## 📂 Struktur Folder
 
 ```
 src/
@@ -106,7 +106,7 @@ src/
 public/data/    catalog.json (dataset lokal)
 ```
 
-## Keputusan Teknis
+## 🛠️ Keputusan Teknis
 
 - **Logika dipisah dari UI**: pengambilan data di <mark style="background-color: #fef08a; color: #000;">services/</mark>, pengolahan data (filter, ringkasan, persentase) berupa fungsi murni di <mark style="background-color: #fef08a; color: #000;">utils/</mark>, state filter di custom hook <mark style="background-color: #fef08a; color: #000;">useAttendance</mark>. Komponen hanya menampilkan hasilnya.
 - **Komponen reusable**: filter kehadiran (`AttendanceFilters`) dipakai untuk riwayat personal maupun murid; <mark style="background-color: #fef08a; color: #000;">AsyncBoundary</mark> dipakai semua daftar.
