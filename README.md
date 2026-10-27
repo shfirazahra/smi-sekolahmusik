@@ -55,7 +55,7 @@ Catatan perilaku filter:
 - **Loading**, **error** (dengan tombol *Coba lagi*), dan **data kosong** ditangani seragam oleh komponen <mark style="background-color: #fef08a; color: #000;">AsyncBoundary</mark>.
 - **Data invalid**: item/murid tanpa id atau nama dibuang, dan field rusak diberi nilai aman (lihat `normalizeItem` dan `normalizeMember` di <mark style="background-color: #fef08a; color: #000;">src/utils/format.js</mark>).
 
-## Cara Menjalankan
+## 🚀 Cara Menjalankan
 
 Prasyarat: Node.js 18 atau lebih baru.
 
