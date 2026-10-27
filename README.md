@@ -64,8 +64,8 @@ npm install
 npm run dev
 ```
 
-Buka <mark style="background-color: #fef08a; color: #000;">http://localhost:5173</mark> lalu masuk memakai akun demo di atas 
-atau buka <mark style="background-color: #fef08a; color: #000;">https://shfirazahra.github.io/smi-sekolahmusik/</mark>
+Buka <mark style="background-color: #38bdf8; color: #000;">http://localhost:5173</mark> lalu masuk memakai akun demo di atas 
+atau buka <mark style="background-color: #38bdf8; color: #000;">https://shfirazahra.github.io/smi-sekolahmusik/</mark>
 
 Perintah lain:
 
