@@ -1,4 +1,4 @@
-# Sekolah Musik — Instructor Attendance (Front-End Coding Test)
+# 🎵 Sekolah Musik — Instructor Attendance (Front-End Coding Test)
 ![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
