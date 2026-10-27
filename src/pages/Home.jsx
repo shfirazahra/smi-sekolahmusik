@@ -143,7 +143,7 @@ export default function Home({
         <div className="w-full px-6 sm:px-12">
           <div className="text-center max-w-xl mx-auto mb-16">
             <span className="text-xs font-extrabold text-indigo-600 uppercase tracking-widest bg-indigo-50 px-3 py-1.5 rounded-lg border border-indigo-100">
-              Cerita Belajar (Contoh Demo)
+              Cerita Belajar 
             </span>
             <h2 className="text-3xl sm:text-4xl font-black text-slate-900 mt-4">Pengalaman Belajar Musik</h2>
           </div>
