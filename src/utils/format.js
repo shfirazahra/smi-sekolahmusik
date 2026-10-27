@@ -3,7 +3,8 @@ export function formatRupiah(value) {
   return `Rp ${value.toLocaleString("id-ID")}`;
 }
 
-export const unitOf = (item) => (item.type === "Kelas Musik" ? "Sesi" : item.type === "Venue" ? "Jam" : "Hari");
+// Seluruh program di katalog dihitung per sesi.
+export const unitOf = () => "Sesi";
 
 // Membersihkan data katalog. Item tanpa id/nama dibuang (invalid),
 // field lain yang rusak diberi nilai aman agar UI tidak error.

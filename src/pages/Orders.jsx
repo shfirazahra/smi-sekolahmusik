@@ -1,9 +1,10 @@
 import EmptyState from "../components/EmptyState";
+import { formatRupiah } from "../utils/format";
 
 export default function Orders({ orders, onGoCatalog }) {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12 animate-fade-in min-h-[60vh]">
-      <h1 className="text-2xl sm:text-3xl font-black mb-6 text-slate-900 uppercase">Pesanan Saya</h1>
+      <h1 className="text-2xl sm:text-3xl font-black mb-6 text-slate-900 uppercase">Pendaftaran Saya</h1>
       {orders.length === 0 ? (
         <div>
           <EmptyState
@@ -38,7 +39,7 @@ export default function Orders({ orders, onGoCatalog }) {
               </div>
               <div className="text-left sm:text-right">
                 <p className="text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-0.5">Estimasi Biaya</p>
-                <p className="text-lg font-black text-indigo-600">Rp {order.totalPrice.toLocaleString("id-ID")}</p>
+                <p className="text-lg font-black text-indigo-600">{formatRupiah(order.totalPrice) ?? "Hubungi kami"}</p>
                 <span className="inline-block mt-1 bg-amber-50 text-amber-700 border border-amber-200 text-[10px] px-2.5 py-0.5 rounded-full font-bold uppercase">
                   {order.status}
                 </span>

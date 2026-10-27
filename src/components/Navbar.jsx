@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { isInstructor, roleLabel } from "../services/auth";
 
 export default function Navbar({
   currentView,
@@ -10,8 +11,8 @@ export default function Navbar({
 }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const isAdmin = session?.role === "admin";
-  const isUser = session?.role === "user";
+  const canManage = isInstructor(session);
+  const isUser = Boolean(session) && !canManage;
 
   const handleNavClick = (view) => {
     setCurrentView(view);
@@ -48,7 +49,7 @@ export default function Navbar({
             onClick={() => handleNavClick("catalog")}
             className={currentView === "catalog" ? "text-indigo-600" : "hover:text-slate-900"}
           >
-            {isAdmin ? "Kelola Katalog" : "Katalog Kelas"}
+            {canManage ? "Kelola Katalog" : "Katalog Kelas"}
           </button>
 
           {isUser && (
@@ -56,7 +57,7 @@ export default function Navbar({
               onClick={() => handleNavClick("orders")}
               className={`relative ${currentView === "orders" ? "text-indigo-600" : "hover:text-slate-900"}`}
             >
-              Pendaftaran Saya
+              Pendaftaran Kelas
               {orderCount > 0 && (
                 <span className="ml-1.5 rounded-full bg-indigo-600 px-1.5 py-0.5 text-[10px] font-bold text-white">
                   {orderCount}
@@ -65,7 +66,7 @@ export default function Navbar({
             </button>
           )}
 
-          {isAdmin && (
+          {canManage && (
             <button
               onClick={() => handleNavClick("attendance")}
               className={`rounded-lg px-2.5 py-1 ${
@@ -97,7 +98,7 @@ export default function Navbar({
           {session ? (
             <div className="flex items-center gap-2 sm:gap-3">
               <span className="hidden sm:inline-block text-xs text-slate-600">
-                <strong>{session.name}</strong> ({session.role || "user"})
+                <strong>{session.name}</strong> ({roleLabel(session)})
               </span>
               <button
                 onClick={onLogout}
@@ -141,7 +142,7 @@ export default function Navbar({
         <div className="border-t border-slate-200 bg-white px-4 py-3 md:hidden">
           {session && (
             <div className="mb-3 border-b border-slate-100 pb-2 text-xs text-slate-600 sm:hidden">
-              Masuk sebagai: <strong>{session.name}</strong> ({session.role || "user"})
+              Masuk sebagai: <strong>{session.name}</strong> ({roleLabel(session)})
             </div>
           )}
           <div className="flex flex-col gap-2 text-sm font-bold text-slate-600">
@@ -156,7 +157,7 @@ export default function Navbar({
               onClick={() => handleNavClick("catalog")}
               className={`rounded-lg px-3 py-2 text-left ${currentView === "catalog" ? "bg-indigo-50 text-indigo-600" : "hover:bg-slate-50"}`}
             >
-              {isAdmin ? "Kelola Katalog" : "Katalog Kelas"}
+              {canManage ? "Kelola Katalog" : "Katalog Kelas"}
             </button>
 
             {isUser && (
@@ -164,7 +165,7 @@ export default function Navbar({
                 onClick={() => handleNavClick("orders")}
                 className={`flex items-center justify-between rounded-lg px-3 py-2 text-left ${currentView === "orders" ? "bg-indigo-50 text-indigo-600" : "hover:bg-slate-50"}`}
               >
-                <span>Pesanan</span>
+                <span>Pendaftaran Saya</span>
                 {orderCount > 0 && (
                   <span className="rounded-full bg-indigo-600 px-2 py-0.5 text-[10px] font-bold text-white">
                     {orderCount}
@@ -173,7 +174,7 @@ export default function Navbar({
               </button>
             )}
 
-            {isAdmin && (
+            {canManage && (
               <button
                 onClick={() => handleNavClick("attendance")}
                 className={`rounded-lg px-3 py-2 text-left ${currentView === "attendance" ? "bg-indigo-50 text-indigo-600" : "hover:bg-slate-50"}`}

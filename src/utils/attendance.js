@@ -29,13 +29,18 @@ const PRESENT_STATUSES = ["hadir", "terlambat"];
 const STUDENT_STATUS_CYCLE = ["hadir", "hadir", "hadir", "terlambat", "izin", "sakit", "alpa"];
 const PERSONAL_STATUS_CYCLE = ["hadir", "hadir", "hadir", "terlambat", "hadir", "izin", "hadir"];
 const CHECK_IN_CYCLE = ["07:00", "07:05", "07:15", "07:28", "-"];
-const MAX_PERSONAL_DAYS = 60;
+export const STUDENT_HISTORY_DAYS = 14;
+export const PERSONAL_HISTORY_DAYS = 60;
 
 export const isPresent = (status) => PRESENT_STATUSES.includes(status);
 const percent = (part, total) => (total ? Math.round((part / total) * 100) : 0);
 
-// Membuat data presensi simulasi 14 hari terakhir untuk setiap murid.
-export function buildStudentRecords(users, days = 14) {
+// Rentang tanggal tidak valid jika salah satu kosong atau tanggal awal melewati tanggal akhir.
+export const isValidRange = (startDate, endDate) => Boolean(startDate && endDate && startDate <= endDate);
+
+// Membuat data presensi simulasi untuk setiap murid. Status murid dibuat deterministik
+// (berdasarkan urutan murid dan hari), sehingga hasilnya tidak berubah saat filter diganti.
+export function buildStudentRecords(users, days = STUDENT_HISTORY_DAYS) {
   const dates = Array.from({ length: days }, (_, i) => getDaysAgoValue(i));
   return dates.flatMap((date, dayIndex) =>
     users.map((user, userIndex) => ({
@@ -47,20 +52,50 @@ export function buildStudentRecords(users, days = 14) {
       date,
       status: STUDENT_STATUS_CYCLE[(userIndex + dayIndex * 2) % STUDENT_STATUS_CYCLE.length],
       checkIn: CHECK_IN_CYCLE[(userIndex + dayIndex) % CHECK_IN_CYCLE.length],
+      manual: false,
     })),
   );
 }
 
-export function filterStudentRecords(records, { startDate, endDate, status, search }) {
+// Catatan manual dari instruktur menggantikan catatan murid yang sama pada tanggal yang sama.
+export function mergeManualRecords(records, manualRecords) {
+  if (manualRecords.length === 0) return records;
+  const overridden = new Set(manualRecords.map((r) => r.id));
+  return [...manualRecords, ...records.filter((r) => !overridden.has(r.id))];
+}
+
+export function createManualRecord(student, status, now = new Date()) {
+  const date = toDateInput(now);
+  const checkIn = isPresent(status)
+    ? `${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}`
+    : "-";
+  return {
+    id: `${date}-${student.id}`,
+    userId: student.id,
+    name: student.name,
+    email: student.email || "-",
+    avatar: student.image || "",
+    date,
+    status,
+    checkIn,
+    manual: true,
+  };
+}
+
+// Filter rentang tanggal + pencarian nama/email. Rentang tidak valid -> hasil kosong.
+export function filterByDateAndSearch(records, { startDate, endDate, search = "" }) {
+  if (!isValidRange(startDate, endDate)) return [];
   const keyword = search.toLowerCase().trim();
   return records.filter(
     (r) =>
       r.date >= startDate &&
       r.date <= endDate &&
-      (status === "semua" || r.status === status) &&
-      `${r.name} ${r.email}`.toLowerCase().includes(keyword),
+      (!keyword || `${r.name} ${r.email}`.toLowerCase().includes(keyword)),
   );
 }
+
+export const filterByStatus = (records, status) =>
+  !status || status === "semua" ? records : records.filter((r) => r.status === status);
 
 export function summarizeRecords(records) {
   const count = (status) => records.filter((r) => r.status === status).length;
@@ -71,6 +106,7 @@ export function summarizeRecords(records) {
     present,
     absent: count("alpa"),
     permission: count("izin") + count("sakit"),
+    absentTotal: total - present,
     rate: percent(present, total),
   };
 }
@@ -83,27 +119,27 @@ export function statusBreakdown(records) {
   });
 }
 
-// Presensi personal instruktur (simulasi) untuk rentang tanggal; rentang tidak valid -> [].
-export function buildPersonalRecords(startDate, endDate) {
-  if (!startDate || !endDate) return [];
-  const start = new Date(`${startDate}T00:00:00`);
-  const end = new Date(`${endDate}T00:00:00`);
-  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime()) || start > end) return [];
+// Presensi personal instruktur (simulasi) untuk N hari terakhir. Status dihitung dari
+// "berapa hari yang lalu", bukan dari filter, sehingga tanggal yang sama selalu bernilai sama.
+export function buildPersonalRecords(days = PERSONAL_HISTORY_DAYS) {
+  return Array.from({ length: days }, (_, daysAgo) => ({
+    date: getDaysAgoValue(daysAgo),
+    status: PERSONAL_STATUS_CYCLE[(daysAgo + 3) % PERSONAL_STATUS_CYCLE.length],
+    checkIn: daysAgo % 5 === 3 ? "07:18" : "06:55",
+  }));
+}
 
-  const days = [];
-  for (let d = new Date(start); d <= end && days.length < MAX_PERSONAL_DAYS; d.setDate(d.getDate() + 1)) {
-    days.push(toDateInput(d));
-  }
-  return days
-    .map((date, index) => ({
-      date,
-      status: PERSONAL_STATUS_CYCLE[(index + 3) % PERSONAL_STATUS_CYCLE.length],
-      checkIn: index % 5 === 3 ? "07:18" : "06:55",
-    }))
-    .reverse();
+export function filterPersonalRecords(records, { startDate, endDate }) {
+  if (!isValidRange(startDate, endDate)) return [];
+  return records.filter((r) => r.date >= startDate && r.date <= endDate);
 }
 
 export function summarizePersonal(records) {
   const present = records.filter((r) => isPresent(r.status)).length;
-  return { present, days: records.length, rate: percent(present, records.length) };
+  return {
+    present,
+    absent: records.length - present,
+    days: records.length,
+    rate: percent(present, records.length),
+  };
 }

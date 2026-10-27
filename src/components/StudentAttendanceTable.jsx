@@ -27,7 +27,12 @@ export default function StudentAttendanceTable({ records }) {
                       <div className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-50 text-xs font-bold text-indigo-700">{r.name[0]}</div>
                     )}
                     <div>
-                      <p className="font-bold text-slate-800">{r.name}</p>
+                      <p className="font-bold text-slate-800">
+                        {r.name}
+                        {r.manual && (
+                          <span className="ml-2 rounded bg-indigo-50 px-1.5 py-0.5 text-[10px] font-bold text-indigo-700">Dicatat manual</span>
+                        )}
+                      </p>
                       <p className="mt-0.5 text-xs text-slate-400">{r.email}</p>
                     </div>
                   </div>

@@ -8,7 +8,7 @@ export default function Contact({ handleContactSubmit, contactSubmitted }) {
           Layanan Pelanggan
         </span>
         <h1 className="text-2xl sm:text-4xl font-black text-slate-900 uppercase mt-3 mb-2">Hubungi Tim Kami</h1>
-        <p className="text-slate-600 text-xs sm:text-sm">Ada pertanyaan seputar penyewaan venue atau ketersediaan alat musik? Kami siap membantu.</p>
+        <p className="text-slate-600 text-xs sm:text-sm">Ada pertanyaan seputar program kelas, jadwal, atau pendaftaran? Kami siap membantu.</p>
       </div>
 
       <div className="grid lg:grid-cols-2 gap-8">

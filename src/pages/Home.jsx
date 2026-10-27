@@ -5,11 +5,12 @@ import AsyncBoundary from '../components/AsyncBoundary';
 
 export default function Home({
   catalog,
+  team,
   setCurrentView,
   handleOpenDetail,
   onBook,
   testimonials,
-  session 
+  session,
 }) {
   const featuredItems = catalog.data.filter((item) => item.featured);
   return (
@@ -87,7 +88,7 @@ export default function Home({
   <ItemCard 
     key={item.id} 
     item={item} 
-    session={session} // <--- TAMBAHKAN BARIS INI
+    session={session}
     large 
     onDetail={handleOpenDetail} 
     onBook={onBook} 
@@ -105,6 +106,34 @@ export default function Home({
               Lihat Semua Kelas →
             </button>
           </div>
+        </div>
+      </section>
+
+
+      {/* TIM KAMI (data dari DummyJSON /users) */}
+      <section className="py-20 sm:py-24 bg-white w-full border-b border-slate-100">
+        <div className="mx-auto max-w-6xl px-6 sm:px-12">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <span className="text-xs font-extrabold text-indigo-600 uppercase tracking-widest bg-indigo-50 px-3.5 py-1.5 rounded-lg border border-indigo-100">
+              Tim Kami
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 mt-4 mb-3">Pengajar &amp; Murid Kami</h2>
+            <p className="text-slate-600 text-sm">Profil contoh yang diambil dari API DummyJSON.</p>
+          </div>
+          <AsyncBoundary
+            loading={team.loading}
+            error={team.error}
+            onRetry={team.retry}
+            isEmpty={team.data.length === 0}
+            emptyTitle="Data tim belum tersedia"
+            emptyHint="Coba muat ulang beberapa saat lagi."
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {team.data.slice(0, 6).map((member) => (
+                <MemberCard key={member.id} member={member} />
+              ))}
+            </div>
+          </AsyncBoundary>
         </div>
       </section>
 

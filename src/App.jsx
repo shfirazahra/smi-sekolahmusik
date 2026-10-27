@@ -18,6 +18,16 @@ import { useOrders } from "./hooks/useOrders";
 import { useToast } from "./hooks/useToast";
 import { useContactForm } from "./hooks/useContactForm";
 import { useAuth } from "./hooks/useAuth";
+import { isInstructor } from "./services/auth";
+
+const PROTECTED_VIEWS = ["orders", "attendance"];
+
+// Presensi hanya untuk instruktur; "Pendaftaran Saya" hanya untuk user biasa.
+const canAccess = (view, session) => {
+  if (view === "attendance") return isInstructor(session);
+  if (view === "orders") return Boolean(session) && !isInstructor(session);
+  return true;
+};
 
 export default function App() {
   const [currentView, setCurrentView] = useState("home");
@@ -42,14 +52,17 @@ export default function App() {
   };
 
   const navigate = (view) => {
-    // Proteksi halaman Pesanan & Kehadiran
-    if ((view === "orders" || view === "attendance") && !session) {
+    // Proteksi halaman Pendaftaran Saya & Presensi
+    if (PROTECTED_VIEWS.includes(view) && !session) {
       return goToLogin({ view });
     }
 
-    // Hanya Admin yang diizinkan mengakses halaman presensi
-    if (view === "attendance" && session?.role !== "admin") {
-      toast.show("Akses ditolak: Halaman presensi hanya untuk Admin.");
+    if (!canAccess(view, session)) {
+      toast.show(
+        view === "attendance"
+          ? "Akses ditolak: halaman presensi hanya untuk Instruktur."
+          : "Akun instruktur tidak memiliki halaman pendaftaran kelas.",
+      );
       return;
     }
 
@@ -63,22 +76,25 @@ export default function App() {
   };
 
   const requestBooking = (item) => {
+    if (isInstructor(session)) return;
     if (!session) return goToLogin({ view: currentView, bookItem: item });
     setBookingItem(item);
   };
 
   const handleLoginSuccess = (newSession) => {
     signIn(newSession);
-    const targetView = pending?.view ?? (newSession.role === "admin" ? "attendance" : "home");
+    const defaultView = isInstructor(newSession) ? "attendance" : "home";
+    const targetView = pending?.view && canAccess(pending.view, newSession) ? pending.view : defaultView;
     setCurrentView(targetView);
 
-    if (pending?.bookItem) setBookingItem(pending.bookItem);
+    // Instruktur tidak dapat mendaftar kelas, jadi permintaan booking yang tertunda dibuang.
+    if (pending?.bookItem && !isInstructor(newSession)) setBookingItem(pending.bookItem);
     setPending(null);
     toast.show(`Selamat datang, ${newSession.name}!`);
   };
 
   const handleLoginCancel = () => {
-    const back = pending?.view && !["orders", "attendance"].includes(pending.view) ? pending.view : "home";
+    const back = pending?.view && !PROTECTED_VIEWS.includes(pending.view) ? pending.view : "home";
     setCurrentView(back);
     setPending(null);
   };
@@ -86,7 +102,7 @@ export default function App() {
   const handleLogout = () => {
     signOut();
     clearOrders();
-    if (currentView === "orders" || currentView === "attendance") setCurrentView("home");
+    if (PROTECTED_VIEWS.includes(currentView)) setCurrentView("home");
     toast.show("Anda telah keluar.");
   };
 
@@ -97,7 +113,7 @@ export default function App() {
   };
 
   const loginNotice = pending?.bookItem
-    ? `Masuk atau daftar untuk menyewa/mendaftar ${pending.bookItem.name}.`
+    ? `Masuk atau daftar untuk mendaftar ${pending.bookItem.name}.`
     : pending?.view === "orders"
       ? "Masuk untuk melihat pendaftaran Anda."
       : "";
@@ -126,8 +142,8 @@ export default function App() {
   />
 )}
         {currentView === "about" && <About />}
-        {currentView === "attendance" && session?.role === "admin" && (
-          <Attendance team={team} />
+        {currentView === "attendance" && isInstructor(session) && (
+          <Attendance team={team} onNotify={toast.show} />
         )}
         {currentView === "catalog" && (
   <Catalog
@@ -135,7 +151,8 @@ export default function App() {
     filter={filter}
     handleOpenDetail={handleOpenDetail}
     onBook={requestBooking}
-    session={session} // <--- Kirimkan session ke Catalog
+    session={session}
+    onNotify={toast.show}
   />
 )}
        {currentView === "detail" && selectedItem && (
@@ -143,10 +160,10 @@ export default function App() {
     item={selectedItem}
     onBack={() => setCurrentView("catalog")}
     onBook={requestBooking}
-    session={session} // <--- Tambahkan prop session di sini
+    session={session}
   />
 )}
-        {currentView === "orders" && (
+        {currentView === "orders" && canAccess("orders", session) && (
           <Orders orders={orders} onGoCatalog={() => setCurrentView("catalog")} />
         )}
         {currentView === "contact" && (

@@ -9,7 +9,7 @@ export function useOrders() {
       itemName: item.name,
       date,
       duration,
-      totalPrice: item.price * duration,
+      totalPrice: item.price ? item.price * duration : null,
       status: "Menunggu Pembayaran",
     };
     setOrders((prev) => [order, ...prev]);

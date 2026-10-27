@@ -30,10 +30,38 @@ function useAsyncList(loader, normalize) {
     setState((s) => ({ ...s, loading: true, error: null }));
     setReloadKey((k) => k + 1);
   }, []);
-  return { ...state, retry };
+
+  // Pembaruan data lokal secara immutable (dipakai CRUD simulasi di sisi front-end).
+  const updateData = useCallback((updater) => setState((s) => ({ ...s, data: updater(s.data) })), []);
+
+  return { ...state, retry, updateData };
 }
 
-export const useCatalog = () => useAsyncList(fetchCatalog, normalizeItem);
+// Katalog: hasil fetch + operasi tambah/ubah/hapus lokal (tidak ada back-end).
+export function useCatalog() {
+  const { updateData, ...catalog } = useAsyncList(fetchCatalog, normalizeItem);
+
+  const addItem = useCallback(
+    (fields) => {
+      const item = normalizeItem({ ...fields, id: `class-${Date.now()}`, type: "Kelas Musik" });
+      if (item) updateData((items) => [item, ...items]);
+      return item;
+    },
+    [updateData],
+  );
+
+  const updateItem = useCallback(
+    (id, fields) =>
+      updateData((items) =>
+        items.map((item) => (item.id === id ? (normalizeItem({ ...item, ...fields }) ?? item) : item)),
+      ),
+    [updateData],
+  );
+
+  const removeItem = useCallback((id) => updateData((items) => items.filter((item) => item.id !== id)), [updateData]);
+
+  return { ...catalog, addItem, updateItem, removeItem };
+}
 
 export function useTeam(limit = 6) {
   const loader = useCallback(() => fetchTeam(limit), [limit]);
