@@ -69,12 +69,13 @@ atau buka <mark style="background-color: #38bdf8; color: #000;">https://shfiraza
 
 Perintah lain:
 
+<blockquote style="background-color: #0f172a; border-left: 4px solid #38bdf8; padding: 12px; margin: 10px 0;">
+
 ```bash
-npm run build     # build produksi ke folder dist/
-npm run preview   # menjalankan hasil build secara lokal
-npm run lint      # Oxlint
-npm run deploy    # publikasi ke GitHub Pages (gh-pages)
-```
+npm run build      # build produksi ke folder dist/
+npm run preview    # menjalankan hasil build secara lokal
+npm run lint       # Oxlint
+npm run deploy     # publikasi ke GitHub Pages (gh-pages)
 
 > Path dasar build produksi diatur di <mark style="background-color: #fef08a; color: #000;">vite.config.js</mark> (<mark style="background-color: #fef08a; color: #000;">/smi-sekolahmusik/</mark>). Ubah jika nama repository Anda berbeda.
 
