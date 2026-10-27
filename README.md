@@ -19,32 +19,18 @@ Aplikasi web Sekolah Musik SMI yang dibuat untuk coding test Front-End. Fitur ut
 **Akun demo instruktur:** <mark style="background-color: #fef08a; color: #000;">instruktur@smi.co.id / smi12345</mark>
 
 ### 2. Presensi Instruktur (khusus role Instruktur)
-<table>
-  <thead>
-    <tr style="background-color: #1e293b; color: #38bdf8;">
-      <th width="35%">Fitur pada soal</th>
-      <th width="65%">Lokasi di aplikasi</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><b>Melihat attendance personal</b></td>
-      <td>Bagian <mark style="background-color: #fef08a; color: #000;">Kehadiran personal</mark>: kartu ringkasan + tabel riwayat</td>
-    </tr>
-    <tr>
-      <td><b>Melihat total absensi murid</b></td>
-      <td>Kartu <mark style="background-color: #fef08a; color: #000;">Total absensi murid</mark> (alpa + izin + sakit, dengan rinciannya)</td>
-    </tr>
-    <tr>
-      <td><b>Persentase kehadiran murid dan personal</b></td>
-      <td>Kartu <mark style="background-color: #fef08a; color: #000;">Persentase kehadiran murid</mark>, bar <mark style="background-color: #fef08a; color: #000;">Persentase Kehadiran Murid</mark> per status, serta persentase pada <mark style="background-color: #fef08a; color: #000;">Kehadiran Personal</mark></td>
-    </tr>
-    <tr>
-      <td><b>Filter history kehadiran personal dan murid</b></td>
-      <td>Dua filter yang berdiri sendiri: personal (rentang tanggal + status) dan murid (rentang tanggal + status + cari nama/email)</td>
-    </tr>
-  </tbody>
-</table>
+
+> [!NOTE]
+> **Melihat attendance personal**  
+> 📍 **Lokasi:** Bagian **Kehadiran personal** (kartu ringkasan + tabel riwayat)
+
+> [!TIP]
+> **Melihat total absensi murid & Persentase**  
+> 📍 **Lokasi:** Kartu **Total absensi murid** & **Persentase kehadiran murid** per status
+
+> [!IMPORTANT]
+> **Filter history kehadiran personal dan murid**  
+> 📍 **Lokasi:** Dua filter berdiri sendiri (personal: tanggal + status | murid: tanggal + status + cari nama)
 
 Catatan perilaku filter:
 - Persentase dan total pada ringkasan mengikuti **rentang tanggal** (dan pencarian untuk murid). Filter **status** hanya mempersempit isi tabel, agar persentase kehadiran tidak menjadi 0% atau 100% saat status dipilih.
