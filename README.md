@@ -1,4 +1,9 @@
 # Sekolah Musik — Instructor Attendance (Front-End Coding Test)
+![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![GitHub Pages](https://img.shields.io/badge/GitHub_Pages-222222?style=for-the-badge&logo=github&logoColor=white)
 
 Aplikasi web Sekolah Musik SMI yang dibuat untuk coding test Front-End. Fitur utama sesuai soal adalah **Web App Instructor Attendance**: instruktur login, lalu memantau kehadiran personal dan kehadiran murid lengkap dengan persentase dan filter riwayat. Aplikasi juga memiliki katalog kelas dan alur pendaftaran kelas sebagai pelengkap.
 
