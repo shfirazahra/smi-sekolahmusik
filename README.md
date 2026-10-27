@@ -52,8 +52,8 @@ Catatan perilaku filter:
 - Beranda, Tentang, dan Kontak.
 
 ### Penanganan State
-- **Loading**, **error** (dengan tombol *Coba lagi*), dan **data kosong** ditangani seragam oleh komponen `AsyncBoundary`.
-- **Data invalid**: item/murid tanpa id atau nama dibuang, dan field rusak diberi nilai aman (lihat `normalizeItem` dan `normalizeMember` di `src/utils/format.js`).
+- **Loading**, **error** (dengan tombol *Coba lagi*), dan **data kosong** ditangani seragam oleh komponen <mark style="background-color: #fef08a; color: #000;">AsyncBoundary</mark>.
+- **Data invalid**: item/murid tanpa id atau nama dibuang, dan field rusak diberi nilai aman (lihat `normalizeItem` dan `normalizeMember` di <mark style="background-color: #fef08a; color: #000;">src/utils/format.js</mark>).
 
 ## Cara Menjalankan
 
@@ -64,8 +64,8 @@ npm install
 npm run dev
 ```
 
-Buka `http://localhost:5173` lalu masuk memakai akun demo di atas 
-atau buka `https://shfirazahra.github.io/smi-sekolahmusik/`
+Buka <mark style="background-color: #fef08a; color: #000;">http://localhost:5173</mark> lalu masuk memakai akun demo di atas 
+atau buka <mark style="background-color: #fef08a; color: #000;">https://shfirazahra.github.io/smi-sekolahmusik/</mark>
 
 Perintah lain:
 
@@ -76,7 +76,7 @@ npm run lint      # Oxlint
 npm run deploy    # publikasi ke GitHub Pages (gh-pages)
 ```
 
-> Path dasar build produksi diatur di `vite.config.js` (`/smi-sekolahmusik/`). Ubah jika nama repository Anda berbeda.
+> Path dasar build produksi diatur di <mark style="background-color: #fef08a; color: #000;">vite.config.js</mark> (<mark style="background-color: #fef08a; color: #000;">/smi-sekolahmusik/</mark>). Ubah jika nama repository Anda berbeda.
 
 ## Bahasa Pemrograman dan Tools
 
@@ -87,7 +87,7 @@ npm run deploy    # publikasi ke GitHub Pages (gh-pages)
 - **Oxlint** untuk linting
 - **Git** untuk version control
 
-Library tambahan: tidak ada library UI/state/routing tambahan. Dependensi selain React hanya tooling (Vite, Tailwind, PostCSS, Autoprefixer, Oxlint) dan `gh-pages` untuk deploy.
+Library tambahan: tidak ada library UI/state/routing tambahan. Dependensi selain React hanya tooling (Vite, Tailwind, PostCSS, Autoprefixer, Oxlint) dan <mark style="background-color: #fef08a; color: #000;">gh-pages</mark> untuk deploy.
 
 ## Struktur Folder
 
@@ -108,11 +108,11 @@ public/data/    catalog.json (dataset lokal)
 
 ## Keputusan Teknis
 
-- **Logika dipisah dari UI**: pengambilan data di `services/`, pengolahan data (filter, ringkasan, persentase) berupa fungsi murni di `utils/`, state filter di custom hook `useAttendance`. Komponen hanya menampilkan hasilnya.
-- **Komponen reusable**: filter kehadiran (`AttendanceFilters`) dipakai untuk riwayat personal maupun murid; `AsyncBoundary` dipakai semua daftar.
-- **Role**: pembatasan akses dilakukan di level aplikasi (`App.jsx`, `Navbar`, `Catalog`, `ItemDetail`). Halaman Presensi hanya untuk Instruktur; "Pendaftaran Kelas" hanya untuk User.
+- **Logika dipisah dari UI**: pengambilan data di <mark style="background-color: #fef08a; color: #000;">services/</mark>, pengolahan data (filter, ringkasan, persentase) berupa fungsi murni di <mark style="background-color: #fef08a; color: #000;">utils/</mark>, state filter di custom hook <mark style="background-color: #fef08a; color: #000;">useAttendance</mark>. Komponen hanya menampilkan hasilnya.
+- **Komponen reusable**: filter kehadiran (`AttendanceFilters`) dipakai untuk riwayat personal maupun murid; <mark style="background-color: #fef08a; color: #000;">AsyncBoundary</mark> dipakai semua daftar.
+- **Role**: pembatasan akses dilakukan di level aplikasi (<mark style="background-color: #fef08a; color: #000;">App.jsx</mark>, <mark style="background-color: #fef08a; color: #000;">Navbar</mark>, <mark style="background-color: #fef08a; color: #000;">Catalog</mark>, <mark style="background-color: #fef08a; color: #000;">ItemDetail</mark>). Halaman Presensi hanya untuk Instruktur; "Pendaftaran Kelas" hanya untuk User.
 - Navigasi antar halaman memakai state internal (tanpa library routing) untuk menjaga kesederhanaan.
 
 ## Catatan
 
-- Seluruh autentikasi, data kehadiran, dan perubahan katalog adalah **simulasi front-end**. Password disimpan apa adanya di `localStorage` hanya untuk keperluan demo dan tidak boleh dipakai di produksi.
+- Seluruh autentikasi, data kehadiran, dan perubahan katalog adalah **simulasi front-end**. Password disimpan apa adanya di <mark style="background-color: #fef08a; color: #000;">localStorage</mark> hanya untuk keperluan demo dan tidak boleh dipakai di produksi.
