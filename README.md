@@ -5,11 +5,11 @@ Aplikasi web Sekolah Musik SMI yang dibuat untuk coding test Front-End. Fitur ut
 ## Deskripsi Aplikasi
 
 ### 1. Halaman Login
-- Form login sederhana (email + password) dengan validasi: email wajib & berformat benar, password wajib & minimal 6 karakter.
+- Form login sederhana (email + password) dengan validasi: email wajib & berformat benar, password wajib minimal 6 karakter.
 - Autentikasi **disimulasikan** (tanpa back-end): akun bawaan ada di kode, akun hasil registrasi dan sesi disimpan di `localStorage`.
 - Ada dua role:
   - **Instruktur** — akun bawaan, masuk ke halaman Presensi dan dapat mengelola katalog.
-  - **User** — dibuat lewat form "Daftar di sini"; dapat mendaftar kelas dan melihat "Pendaftaran Saya".
+  - **User** — dibuat lewat form "Daftar di sini"; dapat mendaftar kelas dan melihat "Pendaftaran Kelas".
 
 **Akun demo instruktur:** `instruktur@smi.co.id` / `smi12345`
 
