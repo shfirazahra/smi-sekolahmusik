@@ -33,7 +33,7 @@ Catatan perilaku filter:
 
 ### 4. Fitur Pelengkap
 - **Katalog Kelas**: cari nama kelas, filter kategori, halaman detail, dan pendaftaran kelas (modal) untuk User. Instruktur melihat tombol Tambah/Edit/Hapus kelas; perubahan hanya di memori dan kembali ke data awal saat halaman dimuat ulang.
-- **Pendaftaran Saya**: riwayat pendaftaran kelas oleh User selama sesi berjalan.
+- **Pendaftaran Kelas**: riwayat pendaftaran kelas oleh User selama sesi berjalan.
 - Beranda, Tentang, dan Kontak.
 
 ### Penanganan State
@@ -94,7 +94,7 @@ public/data/    catalog.json (dataset lokal)
 
 - **Logika dipisah dari UI**: pengambilan data di `services/`, pengolahan data (filter, ringkasan, persentase) berupa fungsi murni di `utils/`, state filter di custom hook `useAttendance`. Komponen hanya menampilkan hasilnya.
 - **Komponen reusable**: filter kehadiran (`AttendanceFilters`) dipakai untuk riwayat personal maupun murid; `AsyncBoundary` dipakai semua daftar.
-- **Role**: pembatasan akses dilakukan di level aplikasi (`App.jsx`, `Navbar`, `Catalog`, `ItemDetail`). Halaman Presensi hanya untuk Instruktur; "Pendaftaran Saya" hanya untuk User.
+- **Role**: pembatasan akses dilakukan di level aplikasi (`App.jsx`, `Navbar`, `Catalog`, `ItemDetail`). Halaman Presensi hanya untuk Instruktur; "Pendaftaran Kelas" hanya untuk User.
 - Navigasi antar halaman memakai state internal (tanpa library routing) untuk menjaga kesederhanaan.
 
 ## Catatan
