@@ -50,6 +50,7 @@ npm run dev
 ```
 
 Buka `http://localhost:5173` lalu masuk memakai akun demo di atas.
+Atau buka https://shfirazahra.github.io/smi-sekolahmusik/
 
 Perintah lain:
 
